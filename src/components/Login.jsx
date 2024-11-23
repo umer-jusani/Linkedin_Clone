@@ -147,6 +147,7 @@ const Content = styled.div`
     padding-block: 12px;
     border-radius: var(--border-radius);
     transition-duration: 0.5s;
+    margin-top: 3rem;
 
     &:hover{
         border: 2.5px solid black;
