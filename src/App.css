@@ -1,5 +1,17 @@
 /* // https://piccalil.li/blog/a-modern-css-reset */
 
+/* root Variables */
+:root {
+  /* colors */
+  --clr-primary-color: #0a66c2;
+  --clr-neutral-color: #ffff;
+
+  --border-radius: 24px;
+
+  /* fontsizez */
+  /* --fs- */
+}
+
 /* Box sizing rules */
 *,
 *::before,
@@ -30,6 +42,7 @@ body {
   min-height: 100vh;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
+  font-family: "Geist Mono", monospace;
   overflow-x: hidden;
   background-color: #f5f5f5;
 }
@@ -77,4 +90,8 @@ select {
   --padding: 1rem;
   width: min(var(--max-width), 100% - var(--padding) * 2);
   margin-inline: auto;
+}
+
+:where(.flow :not(:first-child)) {
+  margin-top: var(--flow-spacer, 3em);
 }
