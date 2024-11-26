@@ -8,7 +8,7 @@ const Login = () => {
 
 
     return (
-        <>
+        <Container>
             <Header>
                 <div className='container'>
                     <Nav>
@@ -26,9 +26,7 @@ const Login = () => {
                     </Nav>
                 </div>
             </Header>
-
-
-            <div className='hero_section'>
+            <div className='hero_section padding-block-500'>
                 <div className='container'>
                     <HeroSection>
                         <Content>
@@ -53,10 +51,17 @@ const Login = () => {
                     </HeroSection>
                 </div>
             </div>
-        </>
+        </Container>
     )
 }
 
+
+const Container = styled.div`
+   @media (min-width: 50em) {
+    height: 100vh;
+    overflow-y:hidden ;
+   }
+`
 
 const Header = styled.header`
     margin-top: 1rem;
@@ -81,7 +86,7 @@ const JoinNow = styled.button`
     border: none;
     padding: 10px 20px;
     background-color: transparent;
-    font-weight: bolder;
+    font-weight: 500;
     font-size: clamp(0.9rem, 0.8351rem + 0.3243vw, 1.2rem);
     cursor: pointer;
     transition-duration: 0.5s;
@@ -102,7 +107,7 @@ const SignIn = styled.a`
     padding: 10px 20px;
     color: var(--clr-primary-color);
     font-size: clamp(0.9rem, 0.8351rem + 0.3243vw, 1.2rem);
-    font-weight: bolder;
+    font-weight: 500;
     border-radius: var(--border-radius);
     cursor: pointer;
     box-shadow: inset 0 0 0 1px var(--clr-primary-color);
@@ -130,7 +135,7 @@ const Content = styled.div`
       text-align: center;
       font-size: 20px;
       width: 100%;
-      font-weight: 600;
+      font-weight: 350;
     }
  
     @media (min-width: 50em) {
@@ -165,13 +170,12 @@ const Content = styled.div`
 const HeroSection = styled.header`
     display: grid;
     gap: 1rem;
-    padding-top: 6rem;
+    /* padding-top: 6rem; */
 
     @media (min-width: 50em) {
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
-    /* min-height: 10rem; */
-    padding-top: 4rem;
+    /* padding-top: 6rem; */
   }
 `
 
