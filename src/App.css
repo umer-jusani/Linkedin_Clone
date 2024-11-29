@@ -113,10 +113,32 @@ select {
   display: flex;
 }
 
+@media (max-width: 50em) {
+  .nav_small {
+    position: fixed;
+    padding-top: 8px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    -webkit-box-shadow: 0px -5px 62px 0px rgba(151, 151, 177, 1);
+    -moz-box-shadow: 0px -5px 62px 0px rgba(151, 151, 177, 1);
+    box-shadow: 0px -5px 62px 0px rgba(151, 151, 177, 1);
+    border-bottom: 1px solid rgb(166, 166, 166);
+  }
+  .header_nav_list {
+    margin-inline: auto;
+    width: fit-content;
+    gap: 2rem;
+
+    @media (max-width: 550px) {
+      gap: 0.5rem;
+    }
+  }
+}
+
 .header_nav_list li[data-nav="setting"] span {
   margin-left: auto;
   display: flex;
-  gap: 1px;
 }
 
 .header_nav_list li[data-nav="setting"] a > img {
@@ -125,9 +147,6 @@ select {
 
 .header_nav_list li {
   text-align: center;
-  padding-inline: 1rem;
-  padding-top: 0.7rem;
-  padding-bottom: 0.4rem;
   cursor: pointer;
   font-size: 14px;
   gap: 1rem;
@@ -135,6 +154,13 @@ select {
   letter-spacing: 0.1px;
   color: var(--f-clr-grey);
   height: 100%;
+  padding-inline: 0.5rem;
+  padding-top: 0.7rem;
+  padding-bottom: 0.4rem;
+}
+
+.header_nav_list[data-devices="large"] li {
+  padding-inline: 1rem;
 }
 
 .header_nav_list li:first-child {
@@ -150,14 +176,19 @@ select {
 .header_logo {
   display: flex;
   gap: 1rem;
+
+  @media (max-width: 50em) {
+    gap: 0.5rem;
+  }
 }
 
 .header_logo a {
-  width: max(2rem, 2.5rem);
+  min-width: 2rem;
 }
 
 .header_logo a img {
   width: 100%;
+  height: auto;
 }
 
 .open_icon {

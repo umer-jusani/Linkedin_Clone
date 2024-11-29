@@ -31,29 +31,27 @@ const Header = () => {
                     </div>
 
 
-                    <GiHamburgerMenu size={30} color='black' className='open_icon' />
+                    {/* <GiHamburgerMenu size={30} color='black' className='open_icon' /> */}
 
 
                     {/* Nav*/}
                     <nav className='nav'>
-                        <ul role='list' className='header_nav_list'>
+                        <ul role='list' className='header_nav_list' data-devices="large">
                             <li><a href="#">
                                 <img src={Nav_Home} alt="" />
-                            </a> Home</li>
+                            </a><span>Home</span></li>
                             <li><a href="#">
                                 <img src={Nav_Network} alt="" />
-                            </a>My Network</li>
+                            </a><span>My Network</span></li>
                             <li><a href="#">
                                 <img src={Nav_Job} alt="" />
-                            </a>Jobs</li>
+                            </a><span> Jobs</span></li>
                             <li><a href="#">
                                 <img src={Nav_Messaging} alt="" />
-                            </a>Messaging</li>
+                            </a><span> Messaging</span></li>
                             <li><a href="#">
                                 <img src={Nav_Notification} alt="" />
-                            </a>Notifications</li>
-
-
+                            </a><span> Notifications</span></li>
 
                             <li data-nav="setting"><a href="#">
                                 <img src={UserImage} alt="" />
@@ -61,19 +59,40 @@ const Header = () => {
                                     <img src={DownIcon} alt="" />
                                 </span> </li>
 
-
                             <li data-nav="setting"><a href="#">
                                 <img src={Work} alt="" />
-                            </a><span><h5>work</h5>
+                            </a><span><h5>Work</h5>
                                     <img src={DownIcon} alt="" />
                                 </span> </li>
-
                         </ul>
-
-
                     </nav>
 
+                    <NavSmall className="nav_small">
+                        <ul role='list' className='header_nav_list' data-devices="small" >
+                            <li><a href="#">
+                                <img src={Nav_Home} alt="" />
+                            </a></li>
+                            <li><a href="#">
+                                <img src={Nav_Network} alt="" />
+                            </a></li>
+                            <li><a href="#">
+                                <img src={Nav_Job} alt="" />
+                            </a></li>
+                            <li><a href="#">
+                                <img src={Nav_Messaging} alt="" />
+                            </a></li>
+                            <li><a href="#">
+                                <img src={Nav_Notification} alt="" />
+                            </a></li>
+                            <li data-nav="setting"><a href="#">
+                                <img src={UserImage} alt="" />
+                            </a> </li>
+                            <li data-nav="setting"><a href="#">
+                                <img src={Work} alt="" />
+                            </a> </li>
 
+                        </ul>
+                    </NavSmall>
 
                 </Wrapper>
             </div>
@@ -88,24 +107,31 @@ const Wrapper = styled.div`
     align-items: center;
     gap: 1rem;
     
-    @media (max-width: 67em) {
-        padding-block: 0.6rem;
-
-        & > nav {
+    @media (max-width: 65em)  {
+        padding-block: 0.8rem;
+        & > .nav li span {
             display: none;
         }
 }  
-     
+    @media (max-width: 50em) {
+
+        & > .nav li {
+            display: none;
+        }
+}  
 `
 
 const Search = styled.div`
     display: inline-flex;
     height: fit-content;
     column-gap: 0.5rem;
-    border: 2px solid black;
+    border: 2px solid transparent;
     padding: 5px 10px;
     border-radius: 4px;
     background-color: rgba(236,241,247,1);
+    box-shadow: 2px 1px 20px -3px rgba(114, 114, 114, 0.75);
+-webkit-box-shadow: 2px 1px 20px -3px rgba(114, 114, 114, 0.75);
+-moz-box-shadow: 2px 1px 20px -3px rgba(114, 114, 114, 0.75);
     flex: 1;
 
     &:hover {
@@ -122,12 +148,21 @@ const Search = styled.div`
     border: none;
     font-weight: bold;
     width: 90%;
+    background: transparent;
     }
 
     & input:focus, input:active{
         outline: none;
     }
  
+`
+
+const NavSmall = styled.nav`
+    display: none;
+
+    @media (max-width: 50em) {
+        display: block;
+    }
 `
 
 export default Header
