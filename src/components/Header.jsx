@@ -14,7 +14,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 
 const Header = () => {
     return (
-        <header style={{ backgroundColor: "var(--bg-clr-white);" }}>
+        <header style={{ backgroundColor: "var(--bg-clr-white)" }}>
             <div className='container'>
                 <Wrapper>
                     <div className='header_logo'>
