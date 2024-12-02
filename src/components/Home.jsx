@@ -1,6 +1,9 @@
 import React from 'react'
 import Header from './Header'
 import styled from 'styled-components'
+import LeftSide from './LeftSide'
+import RightSide from './RightSide'
+import Main from './Main'
 
 const Home = () => {
     return (
@@ -15,12 +18,13 @@ const Home = () => {
                 </Heading>
 
             </section>
-            {/* 
-            <Layout>
-                <div>left side</div>
-                <div>Main</div>
-                <div>Right Side</div>
-            </Layout> */}
+
+
+            <Layout className='container section-padding-top' style={{ "--spacer-big": "2rem", "--spacer-small": "1rem" }}>
+                <LeftSide />
+                <Main />
+                <RightSide />
+            </Layout>
 
         </>
     )
@@ -54,9 +58,21 @@ const Heading = styled.div`
     }
   `
 const Layout = styled.section`
-    
+    display: grid;
+    grid-template-areas: "leftside main rightside";
+    grid-template-columns: minmax(0, 5fr) minmax(0, 12fr) minmax(300px, 7fr);
+    column-gap: 25px;
+
+    @media (max-width: 50em) {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    & > * {
+        border: 2px solid black;
+    }
 `
-const Wrapper = styled.section`
-`
+
 
 export default Home

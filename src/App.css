@@ -106,7 +106,7 @@ select {
   padding-top: var(--spacer-big);
 
   @media (max-width: 50em) {
-    padding-top: 0.5rem;
+    padding-top: var(--spacer-small, 0.5rem);
   }
 }
 
