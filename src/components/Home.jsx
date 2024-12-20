@@ -10,7 +10,6 @@ const Home = () => {
         <>
             <Header />
 
-
             <section className='container section-padding-top' style={{ "--spacer-big": "2rem" }}>
                 <Heading>
                     <h5><a href="">Hiring in a hurry? - </a></h5>
@@ -62,16 +61,13 @@ const Layout = styled.section`
     grid-template-areas: "leftside main rightside";
     grid-template-columns: minmax(0, 5fr) minmax(0, 12fr) minmax(300px, 7fr);
     column-gap: 25px;
+    
 
     @media (max-width: 50em) {
         display: flex;
         flex-direction: column;
     }
 
-
-    & > * {
-        border: 2px solid black;
-    }
 `
 
 
