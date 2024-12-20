@@ -63,7 +63,7 @@ const Layout = styled.section`
     column-gap: 25px;
     
 
-    @media (max-width: 50em) {
+    @media (max-width: 70em) {
         display: flex;
         flex-direction: column;
     }

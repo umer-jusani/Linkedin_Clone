@@ -189,7 +189,7 @@ font-size: 21px;
 }
 
 `
-const ArtCard = styled.div`
+export const ArtCard = styled.div`
 text-align: center;
 overflow: hidden;
 margin-bottom: 1rem;

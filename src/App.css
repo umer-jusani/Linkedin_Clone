@@ -52,7 +52,7 @@ body {
   min-height: 100vh;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
-  font-family: "Geist Mono", monospace;
+  font-family: "Open Sans", serif;
   overflow-x: hidden;
   background-color: var(--bg-clr-greyish);
 }
@@ -96,7 +96,7 @@ select {
 
 /* utility classess */
 .container {
-  --max-width: 1300px;
+  --max-width: 1500px;
   --padding: 1rem;
   width: min(var(--max-width), 100% - var(--padding) * 2);
   margin-inline: auto;
