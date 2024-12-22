@@ -1,16 +1,19 @@
-import React from 'react'
-import styled from 'styled-components'
-import { ArtCard } from './LeftSide'
-import { TbArticle } from "react-icons/tb";
-import { RiGalleryFill } from "react-icons/ri";
-import { MdOutlineInsertPhoto } from "react-icons/md";
-import { FaVideo } from "react-icons/fa";
-import user from "/src/assets/images/user.svg";
+import React from 'react';
 import { BsThreeDots } from "react-icons/bs";
+import { FaVideo } from "react-icons/fa";
+import { MdOutlineInsertPhoto } from "react-icons/md";
+import { RiGalleryFill } from "react-icons/ri";
+import { TbArticle } from "react-icons/tb";
+import styled from 'styled-components';
+import { ArtCard } from './LeftSide';
 // reactions
 import { BiLike } from "react-icons/bi";
 import { BsFillChatHeartFill } from "react-icons/bs";
 import { IoIosBulb } from "react-icons/io";
+// s
+import { LiaCommentSolid } from "react-icons/lia";
+import { LuSend } from "react-icons/lu";
+import { VscLiveShare } from "react-icons/vsc";
 
 const Main = () => {
     return (
@@ -89,6 +92,28 @@ const Main = () => {
                 </Impressions>
 
 
+                <Reactions>
+                    <ul role='list'>
+                        <li>
+                            <BiLike size={20} />
+                            <span>Like</span>
+                        </li>
+                        <li>
+                            <LiaCommentSolid size={20} />
+                            <span>Comment</span>
+                        </li>
+                        <li>
+                            <VscLiveShare size={20} />
+                            <span>Repost</span>
+                        </li>
+                        <li>
+                            <LuSend size={20} />
+                            <span>Send</span>
+                        </li>
+                    </ul>
+                </Reactions>
+
+
             </Article>
         </Container>
     )
@@ -113,9 +138,37 @@ const Article = styled(ArtCard)`
  color: var(--f-clr-black);
  
 `
+const Reactions = styled.div`
+ border-top: 2px solid var(--bg-clr-greyish);
+  
+ ul {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    li {
+        display: flex;
+        justify-content: center;
+        gap: 0.3rem;
+        padding: 12px 18px;
+    }
+
+    li:hover{
+        background-color: var(--bg-clr-greyish);
+    }
+
+
+    @media (max-width: 30em) {
+        span {
+             display: none;
+        }  
+    }
+    
+ }
+`
 const Impressions = styled.div`
  /* border: 2px solid black; */
- padding: 8px;
+ padding: 8px 15px;
  display: flex;
  flex-direction: row;
  justify-content: space-between;
@@ -137,7 +190,7 @@ const Icons = styled.ul`
 
 const Comments = styled.div`
 display: flex;
-gap: 7px;
+gap: 4px;
 `
 
 
@@ -228,9 +281,11 @@ height: fit-content;
 padding-inline: 1rem;
 padding-top: 1rem;
 `
+
 const InputWrapper = styled.div`
 display: flex;
 gap: 1rem;
+ 
 
 & > a{
     width: 50px;
@@ -255,6 +310,18 @@ gap: 1rem;
     outline: none;
 }
 
+@media (max-width: 50em) {
+    gap: 0.3rem;
+    
+    & input {
+    padding-block: .5rem;
+}
+
+    & > a{
+    width: 40px;
+    height: 40px;
+}
+}
 `
 
 const PostingList = styled.ul`
