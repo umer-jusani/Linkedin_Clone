@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import feed from '../assets/images/feed-icon.svg'
 
 
-const RightSide = () => {
+const RightSide = ({ userDetails }) => {
     return (
         <Container>
             <FollowCard>

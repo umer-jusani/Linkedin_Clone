@@ -1,20 +1,26 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components';
 import bg from '../assets/images/card-bg.svg';
 import camera from '../assets/images/photo.svg';
 import widgetIcon from '../assets/images/widget-icon.svg';
 import Itemicon from '../assets/images/item-icon.svg';
 import plus from '../assets/images/plus-icon.svg';
+import { BioContext } from '../ContextAPI';
 
-const LeftSide = () => {
+const LeftSide = ({ userDetails }) => {
+
     return (
         <Container>
             <ArtCard>
                 <UserInfo>
                     <CardBackground src={bg} />
-                    <Photo src={camera} />
+                    {userDetails && userDetails?.photoURL ? (
+                        <Photo src={userDetails?.photoURL} />
+                    ) : (
+                        <Photo src={camera} />
+                    )}
                     <div style={{ marginBlock: "14px" }}>
-                        <Link>Welcome, there!</Link>
+                        <Link>Welcome, {userDetails?.displayName}!</Link>
                         <span>Add a photo</span>
                     </div>
                 </UserInfo>
@@ -167,7 +173,7 @@ const Photo = styled.img`
  z-index: 1; 
  left: 50%;   */
   border-radius: 50%;
-  padding: 0.8rem;
+  padding: ${(props) => (props.isDefault ? '0.8rem' : '0')};
   background: var( --bg-clr-white);
   border: 2px solid var(--bg-clr-greyish);
   background-size: contain;

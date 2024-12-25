@@ -1,14 +1,32 @@
-import React from 'react'
-import Header from './Header'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { listenAuthState } from '../../firebase'
+import Header from './Header'
 import LeftSide from './LeftSide'
-import RightSide from './RightSide'
 import Main from './Main'
+import RightSide from './RightSide'
 
 const Home = () => {
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const savedUser = localStorage.getItem('user');
+        if (savedUser) {
+            setUser(JSON.parse(savedUser));
+        }
+    }, []);
+
+    useEffect(() => {
+        listenAuthState(navigate)
+    }, []);
+
     return (
         <>
-            <Header />
+            {/* {context} */}
+
+            <Header userDetails={user} />
 
             <section className='container section-padding-top' style={{ "--spacer-big": "2rem" }}>
                 <Heading>
@@ -18,11 +36,10 @@ const Home = () => {
 
             </section>
 
-
             <Layout className='container section-padding-top' style={{ "--spacer-big": "2rem", "--spacer-small": "1rem" }}>
-                <LeftSide />
-                <Main />
-                <RightSide />
+                <LeftSide userDetails={user} />
+                <Main userDetails={user} />
+                <RightSide userDetails={user} />
             </Layout>
 
         </>

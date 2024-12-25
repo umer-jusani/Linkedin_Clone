@@ -5,6 +5,8 @@ import App from './App.jsx'
 import { createBrowserRouter, RouterProvider, } from "react-router-dom"
 import Login from './components/Login.jsx'
 import Home from './components/Home.jsx'
+import { BioProvider } from './ContextAPI/index.jsx'
+// import { BioProvider } from './ContextAPI/index.js'
 
 
 const router = createBrowserRouter([
@@ -35,6 +37,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <BioProvider>
+      <RouterProvider router={router} />
+    </BioProvider>
   </StrictMode>,
 )

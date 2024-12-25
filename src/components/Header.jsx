@@ -11,8 +11,9 @@ import Work from "../assets/images/nav-work.svg";
 import DownIcon from "../assets/images/down-icon.svg";
 import styled from 'styled-components';
 import { GiHamburgerMenu } from "react-icons/gi";
+import { LogOutService } from '../../firebase';
 
-const Header = () => {
+const Header = ({ userDetails }) => {
     return (
         <header style={{ backgroundColor: "var(--bg-clr-white)" }}>
             <div className='container'>
@@ -53,17 +54,19 @@ const Header = () => {
                                 <img src={Nav_Notification} alt="" />
                             </a><span> Notifications</span></li>
 
-                            <li data-nav="setting"><a href="#">
-                                <img src={UserImage} alt="" />
+                            <li className="user_header" data-nav="setting" style={{ position: "relative" }}><a href="#">
+                                {userDetails && userDetails?.photoURL ? (
+                                    <img className="userimage" src={userDetails?.photoURL} alt="" />
+                                ) : (
+                                    <img className="userimage" src={UserImage} alt="" />
+                                )}
                             </a><span><h5>Me</h5>
                                     <img src={DownIcon} alt="" />
-                                </span> </li>
-
-                            <li data-nav="setting"><a href="#">
-                                <img src={Work} alt="" />
-                            </a><span><h5>Work</h5>
-                                    <img src={DownIcon} alt="" />
-                                </span> </li>
+                                </span>
+                                <SignOut className='signOut' onClick={() => LogOutService()} top={"100%"}>
+                                    Sign Out
+                                </SignOut>
+                            </li>
                         </ul>
                     </nav>
 
@@ -84,12 +87,17 @@ const Header = () => {
                             <li><a href="#">
                                 <img src={Nav_Notification} alt="" />
                             </a></li>
-                            <li data-nav="setting"><a href="#">
-                                <img src={UserImage} alt="" />
-                            </a> </li>
-                            <li data-nav="setting"><a href="#">
-                                <img src={Work} alt="" />
-                            </a> </li>
+                            <li className="user_header" data-nav="setting"><a href="#" style={{ position: "relative" }}>
+                                {userDetails && userDetails?.photoURL ? (
+                                    <img className="userimage" src={userDetails?.photoURL} alt="" />
+                                ) : (
+                                    <img className="userimage" src={UserImage} alt="" />
+                                )}
+                            </a>
+                                <SignOut className='signOut' onClick={() => LogOutService()} bottom={"90%"}>
+                                    Sign Out
+                                </SignOut>
+                            </li>
 
                         </ul>
                     </NavSmall>
@@ -162,6 +170,24 @@ const NavSmall = styled.nav`
 
     @media (max-width: 50em) {
         display: block;
+    }
+`
+const SignOut = styled.div`
+    position: absolute;
+    top: ${(props) => (props.top ? props.top : null)};
+    bottom: ${(props) => (props.bottom ? props.bottom : null)};
+    z-index: 1;
+    display: none;
+    right: ${(props) => (props.top ? "10%" : "5%")};
+    border-radius: 7px;
+    padding-block: 8px;
+    width: max(7rem, 2rem);
+    font-size: 18px;
+    border: 2px solid var(--bg-clr-greyish);
+    background-color: var(--bg-clr-white);
+
+    &:hover {
+        border: 2px solid var(--f-clr-grey);
     }
 `
 

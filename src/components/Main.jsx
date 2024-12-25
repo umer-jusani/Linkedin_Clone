@@ -14,14 +14,26 @@ import { IoIosBulb } from "react-icons/io";
 import { LiaCommentSolid } from "react-icons/lia";
 import { LuSend } from "react-icons/lu";
 import { VscLiveShare } from "react-icons/vsc";
+import UserImage from "../assets/images/user.svg";
 
-const Main = () => {
+const Main = ({ userDetails }) => {
+
+
+    const capitalizeName = (name) => {
+        let a = name.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+        return a;
+    };
+
     return (
         <Container>
             <ShareBox>
                 <InputWrapper>
                     <a href="">
-                        <img src={"https://media.licdn.com/dms/image/v2/D4D03AQHQs9-n1xvmFg/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1697659463076?e=1740009600&v=beta&t=v5_P1RCgsPPv2qoE1SVtt6rAvfbEMdPLh_CiAUPcDh0"} alt="" />
+                        {userDetails && userDetails?.photoURL ? (
+                            <img src={userDetails?.photoURL} style={{ objectFit: "cover" }} alt="userimage" />
+                        ) : (
+                            <img src={UserImage} style={{ objectFit: "cover" }} alt="userimage" />
+                        )}
                     </a>
                     <input type="text" placeholder='Start a Post' />
                 </InputWrapper>
@@ -49,11 +61,11 @@ const Main = () => {
             <Article>
                 <SharedActor>
                     <a>
-                        <img src="https://media.licdn.com/dms/image/v2/D4D03AQHQs9-n1xvmFg/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1697659463076?e=1740009600&v=beta&t=v5_P1RCgsPPv2qoE1SVtt6rAvfbEMdPLh_CiAUPcDh0" alt="" />
+                        <img src={userDetails?.photoURL} alt="" />
                         <div>
-                            <span>title</span>
-                            <span>Info</span>
-                            <span>Date</span>
+                            <span>{userDetails?.displayName && capitalizeName(userDetails?.displayName)}</span>
+                            {/* <span>Info</span> */}
+                            <span>9h</span>
                         </div>
                     </a>
                     <button>
@@ -290,13 +302,16 @@ gap: 1rem;
 & > a{
     width: 50px;
     height: 50px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
 }
 
 & > a img {
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    /* height: 100%; */
     border-radius: 50%;
-    object-fit: contain;
+    /* object-fit: contain; */
 }
 
 & input {

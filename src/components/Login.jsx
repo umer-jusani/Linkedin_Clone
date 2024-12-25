@@ -1,10 +1,34 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import GoolgeLogo from "../assets/images/google.svg";
 import LoginHero from "../assets/images/login-hero.svg";
 import LinkedinLogo from "../assets/images/login-logo.svg";
+import { signInWithPopup, provider, auth, listenAuthState } from "../../firebase"
+import { BioContext } from '../ContextAPI';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+    const { state, dispatch } = useContext(BioContext);
+    const navigate = useNavigate(); // Initialize useNavigate
+
+    const handleLogin = () => {
+        signInWithPopup(auth, provider).then((res) => {
+            console.log(res, "response")
+            const { email, displayName, photoURL } = res?.user;
+            // dispatch({ type: "SET_USERDETAILS", payload: res?.user });
+
+            // Save data to localStorage
+            localStorage.setItem('user', JSON.stringify({ email, displayName, photoURL }));
+
+            navigate("/home");
+        }).catch(err => {
+            alert("Something Went Wrong")
+        })
+    }
+
+    useEffect(() => {
+        listenAuthState(navigate)
+    }, []);
 
 
     return (
@@ -31,7 +55,7 @@ const Login = () => {
                     <HeroSection>
                         <Content>
                             <h1>Welcome to your professional community</h1>
-                            <button>
+                            <button onClick={handleLogin}>
                                 <a href='#'>
                                     <img src={GoolgeLogo} alt="" />
                                 </a>
@@ -41,7 +65,7 @@ const Login = () => {
                         <Image>
                             <img src={LoginHero} alt="" />
 
-                            <button>
+                            <button onClick={handleLogin} >
                                 <a href='#'>
                                     <img src={GoolgeLogo} alt="" />
                                 </a>

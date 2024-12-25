@@ -123,6 +123,9 @@ select {
 }
 
 /* Home - Nav */
+.user_header:hover .signOut {
+  display: block;
+}
 .header_nav_list {
   display: flex;
 }
@@ -155,7 +158,8 @@ select {
   display: flex;
 }
 
-.header_nav_list li[data-nav="setting"] a > img {
+.header_nav_list li[data-nav="setting"] a > .userimage {
+  width: 1.5rem;
   border-radius: 50%;
 }
 
@@ -178,7 +182,7 @@ select {
 }
 
 .header_nav_list li:first-child {
-  border-bottom: 2px solid black;
+  /* border-bottom: 2px solid black; */
   color: var(--f-clr-black);
 }
 
