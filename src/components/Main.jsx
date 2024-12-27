@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { BsThreeDots } from "react-icons/bs";
 import { FaVideo } from "react-icons/fa";
 import { MdOutlineInsertPhoto } from "react-icons/md";
@@ -15,8 +15,12 @@ import { LiaCommentSolid } from "react-icons/lia";
 import { LuSend } from "react-icons/lu";
 import { VscLiveShare } from "react-icons/vsc";
 import UserImage from "../assets/images/user.svg";
+import PostModel from './PostModel';
+import { BioContext } from '../ContextAPI';
 
 const Main = ({ userDetails }) => {
+    const { state, dispatch } = useContext(BioContext);
+
 
 
     const capitalizeName = (name) => {
@@ -127,6 +131,8 @@ const Main = ({ userDetails }) => {
 
 
             </Article>
+
+            {state.isModelOpen && <PostModel />}
         </Container>
     )
 }
