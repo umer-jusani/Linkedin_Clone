@@ -214,3 +214,13 @@ select {
     display: none;
   }
 }
+
+/* post Model */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

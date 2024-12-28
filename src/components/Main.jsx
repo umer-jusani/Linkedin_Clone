@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { BsThreeDots } from "react-icons/bs";
-import { FaVideo } from "react-icons/fa";
+import { FaLastfmSquare, FaVideo } from "react-icons/fa";
 import { MdOutlineInsertPhoto } from "react-icons/md";
 import { RiGalleryFill } from "react-icons/ri";
 import { TbArticle } from "react-icons/tb";
@@ -20,6 +20,12 @@ import { BioContext } from '../ContextAPI';
 
 const Main = ({ userDetails }) => {
     const { state, dispatch } = useContext(BioContext);
+    const [showModel, setShowModel] = useState(false)
+
+
+    const handleToggleModel = () => {
+        setShowModel(!showModel);
+    }
 
 
 
@@ -39,22 +45,24 @@ const Main = ({ userDetails }) => {
                             <img src={UserImage} style={{ objectFit: "cover" }} alt="userimage" />
                         )}
                     </a>
-                    <input type="text" placeholder='Start a Post' />
+                    {/* <div onClick={handleToggleModel}> */}
+                    <input type="text" onClick={handleToggleModel} placeholder='Start a Post' value={""} />
+                    {/* </div> */}
                 </InputWrapper>
                 <PostingList role='list'>
-                    <li>
+                    <li onClick={handleToggleModel}>
                         <MdOutlineInsertPhoto size={21} color='var(--clr-primary-color)' />
                         <span>Photo</span>
                     </li>
-                    <li>
+                    <li onClick={handleToggleModel}>
                         <FaVideo size={21} color='green' />
                         <span>Video</span>
                     </li>
-                    <li>
+                    <li onClick={handleToggleModel}>
                         <RiGalleryFill size={21} color='orange' />
                         <span>Event</span>
                     </li>
-                    <li>
+                    <li onClick={handleToggleModel}>
                         <TbArticle size={21} color='pink' />
                         <span>Write Article</span>
                     </li>
@@ -132,8 +140,8 @@ const Main = ({ userDetails }) => {
 
             </Article>
 
-            {state.isModelOpen && <PostModel />}
-        </Container>
+            {showModel && <PostModel handleToggleModel={handleToggleModel} userDetails={userDetails} />}
+        </Container >
     )
 }
 
