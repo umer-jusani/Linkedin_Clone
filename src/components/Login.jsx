@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import GoolgeLogo from "../assets/images/google.svg";
 import LoginHero from "../assets/images/login-hero.svg";
 import LinkedinLogo from "../assets/images/login-logo.svg";
-import { signInWithPopup, provider, auth, listenAuthState } from "../../firebase"
+import { signInWithPopup, provider, auth } from "../../firebase"
 import { BioContext } from '../ContextAPI';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,14 +11,17 @@ const Login = () => {
     const { state, dispatch } = useContext(BioContext);
     const navigate = useNavigate(); // Initialize useNavigate
 
+
+    console.log(import.meta.env.VITE_FIREBASE_API_KEY, "api")
+
     const handleLogin = () => {
         signInWithPopup(auth, provider).then((res) => {
             console.log(res, "response")
-            const { email, displayName, photoURL } = res?.user;
+            const { email, displayName, photoURL, uid } = res?.user;
             // dispatch({ type: "SET_USERDETAILS", payload: res?.user });
 
             // Save data to localStorage
-            localStorage.setItem('user', JSON.stringify({ email, displayName, photoURL }));
+            localStorage.setItem('user', JSON.stringify({ email, displayName, photoURL, uid }));
 
             navigate("/home");
         }).catch(err => {
@@ -26,9 +29,9 @@ const Login = () => {
         })
     }
 
-    useEffect(() => {
-        listenAuthState(navigate)
-    }, []);
+    // useEffect(() => {
+    //     listenAuthState(navigate)
+    // }, []);
 
 
     return (

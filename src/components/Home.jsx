@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { listenAuthState } from '../../firebase'
+// import { listenAuthState } from '../../firebase'
 import Header from './Header'
 import LeftSide from './LeftSide'
 import Main from './Main'
@@ -18,9 +18,9 @@ const Home = () => {
         }
     }, []);
 
-    useEffect(() => {
-        listenAuthState(navigate)
-    }, []);
+    // useEffect(() => {
+    //     listenAuthState(navigate)
+    // }, []);
 
     return (
         <>

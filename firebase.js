@@ -3,12 +3,12 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signO
 import { initializeApp } from 'firebase/app';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBfb9jy99CbABKi56-PourzL-c-ufah2cM",
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
     authDomain: "linkedin-clone-dd9e8.firebaseapp.com",
-    projectId: "linkedin-clone-dd9e8",
     storageBucket: "linkedin-clone-dd9e8.firebasestorage.app",
     messagingSenderId: "1072002742617",
-    appId: "1:1072002742617:web:6c46c78bb13faacec8f448",
     measurementId: "G-SZ8RT94HSW"
 };
 
@@ -20,28 +20,30 @@ const provider = new GoogleAuthProvider();
 
 
 // SignOut
-export const LogOutService = () => {
+export const LogOutService = (navigate) => {
     try {
-        signOut(auth)
+        signOut(auth);
+        localStorage.removeItem('user');
+        navigate('/');
     } catch (error) {
         console.log(error, "error using while signOut");
     }
 }
 
 // Function to listen to auth state changes and save/remove user data
-export const listenAuthState = (navigate) => {
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            const { email, displayName, photoURL } = user;
-            // If the user is signed in, save user data to localStorage
-            localStorage.setItem('user', JSON.stringify({ email, displayName, photoURL }));
-            navigate('/home');
-        } else {
-            // If the user is signed out, remove user data from localStorage
-            localStorage.removeItem('user');
-            navigate('/');
-        }
-    });
-};
+// export const listenAuthState = (navigate) => {
+//     onAuthStateChanged(auth, (user) => {
+//         if (user) {
+//             const { email, displayName, photoURL, uid } = user;
+//             // If the user is signed in, save user data to localStorage
+//             localStorage.setItem('user', JSON.stringify({ email, displayName, photoURL, uid }));
+//             navigate('/home');
+//         } else {
+//             // If the user is signed out, remove user data from localStorage
+//             localStorage.removeItem('user');
+//             navigate('/');
+//         }
+//     });
+// };
 
 export { auth, signInWithPopup, provider }; // Export the auth and db objects

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { Suspense, useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { BsThreeDots } from "react-icons/bs";
 import { FaLastfmSquare, FaVideo } from "react-icons/fa";
 import { MdOutlineInsertPhoto } from "react-icons/md";
@@ -17,17 +17,29 @@ import { VscLiveShare } from "react-icons/vsc";
 import UserImage from "../assets/images/user.svg";
 import PostModel from './PostModel';
 import { BioContext } from '../ContextAPI';
+import { databases, getAllDocuments } from '../appwrite';
+import ReactPlayer from 'react-player';
+import Loader from './loader';
+import { formatTimeDifference } from '../helperFunctions';
 
 const Main = ({ userDetails }) => {
     const { state, dispatch } = useContext(BioContext);
-    const [showModel, setShowModel] = useState(false)
+    const [showModel, setShowModel] = useState(false);
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(false);
 
+    console.log(data, "data")
 
     const handleToggleModel = () => {
         setShowModel(!showModel);
     }
 
-
+    useLayoutEffect(() => {
+        setLoading(true)
+        getAllDocuments(userDetails, setData).finally(() => {
+            setLoading(false)
+        });
+    }, [userDetails?.email]); // Depend on userDetails.email to ensure the user is available
 
     const capitalizeName = (name) => {
         let a = name.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
@@ -70,77 +82,91 @@ const Main = ({ userDetails }) => {
                 </PostingList>
             </ShareBox>
 
-            <Article>
-                <SharedActor>
-                    <a>
-                        <img src={userDetails?.photoURL} alt="" />
-                        <div>
-                            <span>{userDetails?.displayName && capitalizeName(userDetails?.displayName)}</span>
-                            {/* <span>Info</span> */}
-                            <span>9h</span>
-                        </div>
-                    </a>
-                    <button>
-                        <BsThreeDots size={25} />
-                    </button>
-                </SharedActor>
 
-                <Description>
-                    Description
-                </Description>
+            {(!data || data == null) && !loading ? (
+                <p>No Post Yet</p>
+            ) : (
+                data?.map(ele => (
+                    <Article key={ele.id}>
+                        <SharedActor>
+                            <a>
+                                <img src={userDetails?.photoURL} alt="" />
+                                <div>
+                                    <span>{userDetails?.displayName && capitalizeName(userDetails?.displayName)}</span>
+                                    <span>{formatTimeDifference(ele?.createdDate, ele?.createdTime)}</span>
+                                </div>
+                            </a>
+                            <button>
+                                <BsThreeDots size={25} />
+                            </button>
+                        </SharedActor>
 
-                <SharedImage>
-                    <a>
-                        <img src={"https://media.licdn.com/dms/image/v2/D4D22AQFVVnyVxWhnHA/feedshare-shrink_2048_1536/B4DZPobUnNGgAo-/0/1734771297288?e=1737590400&v=beta&t=y-_PPVi4k7tAjiMRoDZN6gmLatXCZ_bCaMwp7sTB13o"} alt="" />
-                    </a>
-                </SharedImage>
+                        <Description>{ele?.description}</Description>
 
-                <Impressions>
-                    <Icons role='list'>
-                        <li>
-                            <BiLike size={18} color='var(--clr-primary-color)' />
-                        </li>
-                        <li>
-                            <BsFillChatHeartFill size={18} color='red' />
-                        </li>
-                        <li>
-                            <IoIosBulb size={18} color='green' />
-                        </li>
-                        <li data-hover="true">75</li>
-                    </Icons>
+                        <SharedImage>
+                            <a>
+                                {ele?.fileType.split("/")[0] === "image" ? (
+                                    <img src={ele?.fileURL} alt="" />
+                                ) : ele?.fileType.includes("/") ? (
+                                    <video src={ele?.fileURL} controls>
+                                        Your browser does not support the video tag.
+                                    </video>
+                                ) : (
+                                    <ReactPlayer url={ele?.fileURL} width={"100%"} />
+                                )}
+                            </a>
+                        </SharedImage>
 
-                    <Comments>
-                        <span data-hover="true">22</span>
-                        <p data-hover="true">comments</p>
-                    </Comments>
-                </Impressions>
+                        <Impressions>
+                            <Icons role="list">
+                                <li>
+                                    <BiLike size={18} color="var(--clr-primary-color)" />
+                                </li>
+                                <li>
+                                    <BsFillChatHeartFill size={18} color="red" />
+                                </li>
+                                <li>
+                                    <IoIosBulb size={18} color="green" />
+                                </li>
+                                <li data-hover="true">75</li>
+                            </Icons>
+
+                            <Comments>
+                                <span data-hover="true">22</span>
+                                <p data-hover="true">comments</p>
+                            </Comments>
+                        </Impressions>
+
+                        <Reactions>
+                            <ul role="list">
+                                <li>
+                                    <BiLike size={20} />
+                                    <span>Like</span>
+                                </li>
+                                <li>
+                                    <LiaCommentSolid size={20} />
+                                    <span>Comment</span>
+                                </li>
+                                <li>
+                                    <VscLiveShare size={20} />
+                                    <span>Repost</span>
+                                </li>
+                                <li>
+                                    <LuSend size={20} />
+                                    <span>Send</span>
+                                </li>
+                            </ul>
+                        </Reactions>
+                    </Article>
+                ))
+            )}
+
+            {loading && <Loader />}
 
 
-                <Reactions>
-                    <ul role='list'>
-                        <li>
-                            <BiLike size={20} />
-                            <span>Like</span>
-                        </li>
-                        <li>
-                            <LiaCommentSolid size={20} />
-                            <span>Comment</span>
-                        </li>
-                        <li>
-                            <VscLiveShare size={20} />
-                            <span>Repost</span>
-                        </li>
-                        <li>
-                            <LuSend size={20} />
-                            <span>Send</span>
-                        </li>
-                    </ul>
-                </Reactions>
 
 
-            </Article>
-
-            {showModel && <PostModel handleToggleModel={handleToggleModel} userDetails={userDetails} />}
+            {showModel && <PostModel handleToggleModel={handleToggleModel} userDetails={userDetails} setData={setData} />}
         </Container >
     )
 }
@@ -226,6 +252,11 @@ const Description = styled.div`
     color: rgba(0, 0, 0, 0.9);
     font-size: 14px;
     text-align: left;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+overflow : hidden
+
 `
 
 const SharedImage = styled.div`
@@ -235,9 +266,11 @@ display: block;
 position: relative;
 background-color: #f9fafb;
 
-& img {
+& img, video {
     width: 100%;
-    height: auto;
+    max-height: 40rem;
+    object-fit: cover;
+
 }
 `
 

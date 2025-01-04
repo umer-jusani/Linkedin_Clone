@@ -6,14 +6,20 @@ import { IoImageOutline } from "react-icons/io5";
 import { MdOutlineOndemandVideo } from "react-icons/md";
 import { FaRegCommentDots } from "react-icons/fa6";
 import ReactPlayer from 'react-player/lazy'
+import { getAllDocuments, getUloadedFileURL, savePostDB } from '../appwrite';
+import { ID } from 'appwrite';
+import Loader from './loader';
+import { extractCurrentDate, extractCurrentTime } from '../helperFunctions';
 
-const PostModel = ({ handleToggleModel, userDetails }) => {
+const PostModel = ({ handleToggleModel, userDetails, setData }) => {
     const [editorText, setEditorText] = useState('');
     // store the uploaded image on this state
     const [shareImage, setShareImage] = useState(null);
     // store the external image url on this state.
     const [externalURL, setExternalURL] = useState(null);
+    const [loader, setLoader] = useState(false);
     const inputFile = useRef(null);
+
 
     // Open the file dialog
     const OpenFileDialog = (type) => {
@@ -69,9 +75,43 @@ const PostModel = ({ handleToggleModel, userDetails }) => {
     }, [shareImage]);
 
 
+    // handlePost
+
+    const handlePost = async (file) => {
+        try {
+            // getting URL Ready
+            setLoader(true);
+            let fileURL = typeof file == "object" ? await getUloadedFileURL(file, setLoader) : file
+
+            const postData = {
+                description: editorText,
+                fileURL: fileURL || "",
+                fileType: shareImage?.type ? shareImage?.type : "video",
+                createdTime: extractCurrentTime(),
+                createdDate: extractCurrentDate()
+            };
+
+            await savePostDB(userDetails, postData, setLoader).then(() => {
+                getAllDocuments(userDetails, setData);
+            }).finally(() => {
+                setLoader(false);
+                handleToggleModel();
+            });
+
+        } catch (error) {
+            setLoader(false);
+            console.log(error, "error uploading ")
+        }
+
+
+    }
+
+
+
     return (
         <Container>
             <Content>
+                {loader ? <Loader /> : null}
                 <Header>
                     <h2>Create a Post</h2>
                     {/* <button> */}
@@ -96,7 +136,7 @@ const PostModel = ({ handleToggleModel, userDetails }) => {
                         />
 
 
-                        {/* here */}
+                        {/* External Upload */}
                         <ExternalUpload>
                             <h5>OR</h5>
                             <input type="text" disabled={shareImage ? true : false} placeholder='Enter a Video URL' value={externalURL} onChange={e => setExternalURL(e.target.value)} />
@@ -123,7 +163,7 @@ const PostModel = ({ handleToggleModel, userDetails }) => {
                         </AssetButton>
                     </ShareComment>
 
-                    <PostButton disabled={!editorText ? true : false}>
+                    <PostButton onClick={() => handlePost(externalURL ? externalURL : shareImage)} disabled={!editorText ? true : false}>
                         Post
                     </PostButton>
                 </ShareCreation>
@@ -135,6 +175,7 @@ const PostModel = ({ handleToggleModel, userDetails }) => {
 
 const Container = styled.section`
     position: fixed;
+    overflow-y: scroll;
     z-index: 999;
     top: 0;
     bottom: 0;
@@ -148,7 +189,7 @@ const Content = styled.div`
     width: min(552px, 100%);
     background-color: #ffff;
     position: relative;
-    top: 100px;
+    top: 100px; 
     margin-inline: auto;
     border-radius: 4px;
 `
@@ -264,21 +305,21 @@ const ShareComment = styled.div`
         }
     }
 `
-const UploadImage = styled.div`
+// const UploadImage = styled.div`
 
-     img, video {
-        width: 100%;
-        object-fit: cover;
-        height: max(22rem, 10rem);
+//      img, video {
+//         width: 100%;
+//         object-fit: cover;
+//         height: max(22rem, 10rem);
 
-        @media (max-width: 50em) {
-            height: max(10rem, 5rem);
-        }
-    }
+//         @media (max-width: 50em) {
+//             height: max(10rem, 5rem);
+//         }
+//     }
 
 
 
-`
+// `
 
 const PostButton = styled.button`
     min-width: 60px;
@@ -302,13 +343,17 @@ const Editor = styled.div`
 
     textarea{
         width: 100%;
-        min-height: 100px;
+         
         resize: none;
         padding: 8px;
         border: 1px solid var(--bg-clr-greyish);
 
         &:focus,  &:active {
             outline: 1px solid var(--bg-clr-greyish);
+        }
+
+        @media (min-width: 50em) {
+            min-height: 100px;
         }
     }
 `

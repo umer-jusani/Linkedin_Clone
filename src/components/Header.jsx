@@ -1,19 +1,22 @@
-import React from 'react'
+import React from 'react';
+import styled from 'styled-components';
+import { LogOutService } from '../../firebase';
+import DownIcon from "../assets/images/down-icon.svg";
 import LinkedinLogo from "../assets/images/linkedin.png";
-import SearchIcon from "../assets/images/search-icon.svg";
 import Nav_Home from "../assets/images/nav-home.svg";
-import Nav_Network from "../assets/images/nav-network.svg";
 import Nav_Job from "../assets/images/nav-jobs.svg";
 import Nav_Messaging from "../assets/images/nav-messaging.svg";
+import Nav_Network from "../assets/images/nav-network.svg";
 import Nav_Notification from "../assets/images/nav-notifications.svg";
+import SearchIcon from "../assets/images/search-icon.svg";
 import UserImage from "../assets/images/user.svg";
-import Work from "../assets/images/nav-work.svg";
-import DownIcon from "../assets/images/down-icon.svg";
-import styled from 'styled-components';
-import { GiHamburgerMenu } from "react-icons/gi";
-import { LogOutService } from '../../firebase';
+import { useNavigate } from 'react-router-dom';
 
 const Header = ({ userDetails }) => {
+    const navigate = useNavigate();
+
+
+
     return (
         <header style={{ backgroundColor: "var(--bg-clr-white)" }}>
             <div className='container'>
@@ -63,7 +66,7 @@ const Header = ({ userDetails }) => {
                             </a><span><h5>Me</h5>
                                     <img src={DownIcon} alt="" />
                                 </span>
-                                <SignOut className='signOut' onClick={() => LogOutService()} top={"100%"}>
+                                <SignOut className='signOut' onClick={() => LogOutService(navigate)} top={"100%"}>
                                     Sign Out
                                 </SignOut>
                             </li>
@@ -94,7 +97,7 @@ const Header = ({ userDetails }) => {
                                     <img className="userimage" src={UserImage} alt="" />
                                 )}
                             </a>
-                                <SignOut className='signOut' onClick={() => LogOutService()} bottom={"90%"}>
+                                <SignOut className='signOut' onClick={() => LogOutService(navigate)} bottom={"90%"}>
                                     Sign Out
                                 </SignOut>
                             </li>
@@ -167,6 +170,8 @@ const Search = styled.div`
 
 const NavSmall = styled.nav`
     display: none;
+    z-index: 999;
+    background-color: aliceblue;
 
     @media (max-width: 50em) {
         display: block;
