@@ -10,13 +10,13 @@ import RightSide from './RightSide'
 const Home = () => {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
+    const savedUser = localStorage.getItem('user');
 
     useEffect(() => {
-        const savedUser = localStorage.getItem('user');
         if (savedUser) {
             setUser(JSON.parse(savedUser));
         }
-    }, []);
+    }, [savedUser]);
 
     // useEffect(() => {
     //     listenAuthState(navigate)

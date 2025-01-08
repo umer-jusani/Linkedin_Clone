@@ -1,22 +1,20 @@
 import React, { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { auth, provider, signInWithPopup } from "../../firebase";
 import GoolgeLogo from "../assets/images/google.svg";
 import LoginHero from "../assets/images/login-hero.svg";
 import LinkedinLogo from "../assets/images/login-logo.svg";
-import { signInWithPopup, provider, auth } from "../../firebase"
 import { BioContext } from '../ContextAPI';
-import { useNavigate } from 'react-router-dom';
+import { getRedirectResult, signInWithRedirect } from 'firebase/auth';
+
 
 const Login = () => {
     const { state, dispatch } = useContext(BioContext);
     const navigate = useNavigate(); // Initialize useNavigate
 
-
-    console.log(import.meta.env.VITE_FIREBASE_API_KEY, "api")
-
     const handleLogin = () => {
         signInWithPopup(auth, provider).then((res) => {
-            console.log(res, "response")
             const { email, displayName, photoURL, uid } = res?.user;
             // dispatch({ type: "SET_USERDETAILS", payload: res?.user });
 
@@ -28,10 +26,6 @@ const Login = () => {
             alert("Something Went Wrong")
         })
     }
-
-    // useEffect(() => {
-    //     listenAuthState(navigate)
-    // }, []);
 
 
     return (
@@ -84,10 +78,7 @@ const Login = () => {
 
 
 const Container = styled.div`
-   @media (min-width: 50em) {
-    height: 100vh;
-    overflow-y:hidden ;
-   }
+  
 `
 
 const Header = styled.header`

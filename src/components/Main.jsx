@@ -28,8 +28,6 @@ const Main = ({ userDetails }) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    console.log(data, "data")
-
     const handleToggleModel = () => {
         setShowModel(!showModel);
     }
@@ -39,6 +37,7 @@ const Main = ({ userDetails }) => {
         getAllDocuments(userDetails, setData).finally(() => {
             setLoading(false)
         });
+
     }, [userDetails?.email]); // Depend on userDetails.email to ensure the user is available
 
     const capitalizeName = (name) => {
@@ -52,7 +51,7 @@ const Main = ({ userDetails }) => {
                 <InputWrapper>
                     <a href="">
                         {userDetails && userDetails?.photoURL ? (
-                            <img src={userDetails?.photoURL} style={{ objectFit: "cover" }} alt="userimage" />
+                            <img src={userDetails?.photoURL} style={{ objectFit: "cover" }} onerror="console.error('Image failed to load');" alt="userimage" />
                         ) : (
                             <img src={UserImage} style={{ objectFit: "cover" }} alt="userimage" />
                         )}

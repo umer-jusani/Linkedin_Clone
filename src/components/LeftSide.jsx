@@ -8,16 +8,15 @@ import plus from '../assets/images/plus-icon.svg';
 import { BioContext } from '../ContextAPI';
 
 const LeftSide = ({ userDetails }) => {
-
     return (
         <Container>
             <ArtCard>
                 <UserInfo>
                     <CardBackground src={bg} />
                     {userDetails && userDetails?.photoURL ? (
-                        <Photo src={userDetails?.photoURL} />
+                        <Photo src={userDetails?.photoURL} alt="User photo" />
                     ) : (
-                        <Photo src={camera} />
+                        <Photo src={camera} alt="User photo" />
                     )}
                     <div style={{ marginBlock: "14px" }}>
                         <Link>Welcome, {userDetails?.displayName}!</Link>
