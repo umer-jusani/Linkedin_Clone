@@ -1,31 +1,43 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { auth, provider, signInWithPopup } from "../../firebase";
 import GoolgeLogo from "../assets/images/google.svg";
 import LoginHero from "../assets/images/login-hero.svg";
 import LinkedinLogo from "../assets/images/login-logo.svg";
-import { BioContext } from '../ContextAPI';
 import { getRedirectResult, signInWithRedirect } from 'firebase/auth';
 
 
 const Login = () => {
-    const { state, dispatch } = useContext(BioContext);
     const navigate = useNavigate(); // Initialize useNavigate
 
     const handleLogin = () => {
-        signInWithPopup(auth, provider).then((res) => {
-            const { email, displayName, photoURL, uid } = res?.user;
-            // dispatch({ type: "SET_USERDETAILS", payload: res?.user });
+        // signInWithPopup(auth, provider).then((res) => {
+        //     const { email, displayName, photoURL, uid } = res?.user;
+        //     // dispatch({ type: "SET_USERDETAILS", payload: res?.user });
 
-            // Save data to localStorage
-            localStorage.setItem('user', JSON.stringify({ email, displayName, photoURL, uid }));
+        //     // Save data to localStorage
+        //     localStorage.setItem('user', JSON.stringify({ email, displayName, photoURL, uid }));
 
-            navigate("/home");
-        }).catch(err => {
-            alert("Something Went Wrong")
-        })
+        //     navigate("/home");
+        // }).catch(err => {
+        //     alert(`Something Went Wrong${err}`)
+        // })
+        // Redirect to Google sign-in
+        signInWithRedirect(auth, provider);
+
     }
+
+    useEffect(() => {
+        getRedirectResult(auth)
+            .then((result) => {
+                console.log(result, "finally got the result")
+            })
+            .catch((error) => {
+                // Handle errors
+                console.error("Sign-in error:", error);
+            });
+    }, [])
 
 
     return (

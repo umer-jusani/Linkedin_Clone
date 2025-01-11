@@ -3,13 +3,13 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signO
 import { initializeApp } from 'firebase/app';
 
 const firebaseConfig = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID,
-    authDomain: "linkedin-clone-dd9e8.firebaseapp.com",
-    storageBucket: "linkedin-clone-dd9e8.firebasestorage.app",
-    messagingSenderId: "1072002742617",
-    measurementId: "G-SZ8RT94HSW"
+    apiKey: "AIzaSyB3jjovrWRVHT-RvYJhdR5tg-JpB0VWxZo",
+    authDomain: "linkedinclone-945ca.firebaseapp.com",
+    projectId: "linkedinclone-945ca",
+    storageBucket: "linkedinclone-945ca.firebasestorage.app",
+    messagingSenderId: "460199160552",
+    appId: "1:460199160552:web:1dab1fabe1615cd374775d",
+    measurementId: "G-TC1KLC9SYQ"
 };
 
 // Initialize Firebase
