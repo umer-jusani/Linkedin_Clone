@@ -1,44 +1,52 @@
+import { getRedirectResult, signInWithPopup, signInWithRedirect } from 'firebase/auth';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { auth, provider, signInWithPopup } from "../../firebase";
+import { auth, listenAuthState, provider } from "../../firebase";
 import GoolgeLogo from "../assets/images/google.svg";
 import LoginHero from "../assets/images/login-hero.svg";
 import LinkedinLogo from "../assets/images/login-logo.svg";
-import { getRedirectResult, signInWithRedirect } from 'firebase/auth';
 
 
 const Login = () => {
     const navigate = useNavigate(); // Initialize useNavigate
 
+
     const handleLogin = () => {
-        // signInWithPopup(auth, provider).then((res) => {
-        //     const { email, displayName, photoURL, uid } = res?.user;
-        //     // dispatch({ type: "SET_USERDETAILS", payload: res?.user });
+        signInWithPopup(auth, provider).then((res) => {
+            const { email, displayName, photoURL, uid } = res?.user;
+            // dispatch({ type: "SET_USERDETAILS", payload: res?.user });
 
-        //     // Save data to localStorage
-        //     localStorage.setItem('user', JSON.stringify({ email, displayName, photoURL, uid }));
+            // Save data to local Storage
+            localStorage.setItem('user', JSON.stringify({ email, displayName, photoURL, uid }));
 
-        //     navigate("/home");
-        // }).catch(err => {
-        //     alert(`Something Went Wrong${err}`)
-        // })
-        // Redirect to Google sign-in
-        signInWithRedirect(auth, provider);
-
+            navigate("/home");
+        }).catch(err => {
+            alert(`Something Went Wrong${err}`)
+        })
     }
 
-    useEffect(() => {
-        getRedirectResult(auth)
-            .then((result) => {
-                console.log(result, "finally got the result")
-            })
-            .catch((error) => {
-                // Handle errors
-                console.error("Sign-in error:", error);
-            });
-    }, [])
+    // useEffect(() => {
+    //     const checkRedirectResult = async () => {
+    //         try {
+    //             getRedirectResult(auth)
+    //                 .then((res) => {
+    //                     console.log(res, "success")
+    //                 }).catch(err => {
+    //                     console.log(err, "failed")
+    //                 })
+    //         } catch (error) {
+    //             console.error("Error during redirect result:", error);
+    //         }
+    //     };
 
+    //     checkRedirectResult();
+    // }, [auth, navigate]);
+
+
+    useEffect(() => {
+        listenAuthState(navigate)
+    }, []);
 
     return (
         <Container>

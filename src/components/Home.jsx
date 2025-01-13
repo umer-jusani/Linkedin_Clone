@@ -6,6 +6,7 @@ import Header from './Header'
 import LeftSide from './LeftSide'
 import Main from './Main'
 import RightSide from './RightSide'
+import { listenAuthState } from '../../firebase'
 
 const Home = () => {
     const [user, setUser] = useState(null);
@@ -18,9 +19,9 @@ const Home = () => {
         }
     }, [savedUser]);
 
-    // useEffect(() => {
-    //     listenAuthState(navigate)
-    // }, []);
+    useEffect(() => {
+        listenAuthState(navigate)
+    }, []);
 
     return (
         <>

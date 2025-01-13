@@ -31,19 +31,19 @@ export const LogOutService = (navigate) => {
 }
 
 // Function to listen to auth state changes and save/remove user data
-// export const listenAuthState = (navigate) => {
-//     onAuthStateChanged(auth, (user) => {
-//         if (user) {
-//             const { email, displayName, photoURL, uid } = user;
-//             // If the user is signed in, save user data to localStorage
-//             localStorage.setItem('user', JSON.stringify({ email, displayName, photoURL, uid }));
-//             navigate('/home');
-//         } else {
-//             // If the user is signed out, remove user data from localStorage
-//             localStorage.removeItem('user');
-//             navigate('/');
-//         }
-//     });
-// };
+export const listenAuthState = (navigate) => {
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            const { email, displayName, photoURL, uid } = user;
+            // If the user is signed in, save user data to localStorage
+            localStorage.setItem('user', JSON.stringify({ email, displayName, photoURL, uid }));
+            navigate('/home');
+        } else {
+            // If the user is signed out, remove user data from localStorage
+            localStorage.removeItem('user');
+            navigate('/');
+        }
+    });
+};
 
 export { auth, signInWithPopup, provider }; // Export the auth and db objects
